@@ -1,0 +1,206 @@
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
+}
+
+android {
+    namespace 'com.yourdomain.typesofpeople'
+    compileSdk 34
+
+    defaultConfig {
+        applicationId "com.yourdomain.typesofpeople"
+        minSdk 23
+        targetSdk 34
+        versionCode 1
+        versionName "1.0.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        vectorDrawables {
+            useSupportLibrary true
+        }
+        
+        buildConfigField "String", "API_KEY", "\"${project.properties.getOrDefault("API_KEY", "development_key")}\""
+        buildConfigField "String", "BASE_URL", "\"${project.properties.getOrDefault("BASE_URL", "https://api.example.com")}\""
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            
+            signingConfig signingConfigs.release
+        }
+        debug {
+            minifyEnabled false
+            debuggable true
+            applicationIdSuffix ".debug"
+            versionNameSuffix "-debug"
+            signingConfig signingConfigs.debug
+        }
+        
+        staging {
+            initWith debug
+            minifyEnabled true
+            applicationIdSuffix ".staging"
+            versionNameSuffix "-staging"
+            matchingFallbacks = ['release']
+        }
+    }
+
+    signingConfigs {
+        debug {
+            storeFile file('debug.keystore')
+            storePassword 'android'
+            keyAlias 'androiddebugkey'
+            keyPassword 'android'
+        }
+        release {
+            storeFile file(project.properties.getOrDefault('RELEASE_STORE_FILE', 'release.keystore'))
+            storePassword project.properties.getOrDefault('RELEASE_STORE_PASSWORD', 'password')
+            keyAlias project.properties.getOrDefault('RELEASE_KEY_ALIAS', 'key')
+            keyPassword project.properties.getOrDefault('RELEASE_KEY_PASSWORD', 'password')
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+
+    kotlinOptions {
+        jvmTarget = '17'
+        freeCompilerArgs += [
+            '-Xopt-in=kotlin.RequiresOptIn',
+            '-Xopt-in=androidx.compose.material3.ExperimentalMaterial3Api'
+        ]
+    }
+
+    buildFeatures {
+        viewBinding true
+        dataBinding true
+    }
+
+    sourceSets {
+        main {
+            java.srcDirs += 'src/main/kotlin'
+        }
+        test {
+            java.srcDirs += 'src/test/kotlin'
+        }
+        androidTest {
+            java.srcDirs += 'src/androidTest/kotlin'
+        }
+    }
+
+    packagingOptions {
+        resources {
+            excludes += [
+                'META-INF/DEPENDENCIES',
+                'META-INF/LICENSE',
+                'META-INF/LICENSE.txt',
+                'META-INF/license.txt',
+                'META-INF/NOTICE',
+                'META-INF/NOTICE.txt',
+                'META-INF/notice.txt',
+                'META-INF/ASL2.0',
+                'META-INF/*.kotlin_module'
+            ]
+        }
+    }
+
+    lint {
+        abortOnError false
+        checkReleaseBuilds false
+        disable 'MissingTranslation'
+        disable 'ExtraTranslation'
+        disable 'UnusedResources'
+    }
+}
+
+ext {
+    appCompatVersion = '1.6.1'
+    materialVersion = '1.11.0'
+    coreKtxVersion = '1.12.0'
+    constraintLayoutVersion = '2.1.4'
+    lifecycleVersion = '2.7.0'
+    navigationVersion = '2.7.6'
+    roomVersion = '2.6.1'
+    retrofitVersion = '2.9.0'
+    okhttpVersion = '4.12.0'
+    moshiVersion = '1.15.0' 
+    coroutinesVersion = '1.7.3'
+    daggerVersion = '2.48'
+    junitVersion = '4.13.2'
+    mockitoVersion = '5.7.0'
+    espressoVersion = '3.5.1'
+}
+
+dependencies {
+    implementation "androidx.appcompat:appcompat:$appCompatVersion"
+    implementation "androidx.core:core-ktx:$coreKtxVersion"
+    implementation "com.google.android.material:material:$materialVersion"
+    implementation "androidx.constraintlayout:constraintlayout:$constraintLayoutVersion"
+    
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycleVersion"
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycleVersion"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-savedstate:$lifecycleVersion"
+    kapt "androidx.lifecycle:lifecycle-compiler:$lifecycleVersion"
+    
+    implementation "androidx.navigation:navigation-fragment-ktx:$navigationVersion"
+    implementation "androidx.navigation:navigation-ui-ktx:$navigationVersion"
+    implementation "androidx.room:room-runtime:$roomVersion"
+    implementation "androidx.room:room-ktx:$roomVersion"
+    ksp "androidx.room:room-compiler:$roomVersion"
+    
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion"
+    
+    implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
+    implementation "com.squareup.retrofit2:converter-moshi:$retrofitVersion"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofitVersion"
+    implementation "com.squareup.okhttp3:okhttp:$okhttpVersion"
+    implementation "com.squareup.okhttp3:logging-interceptor:$okhttpVersion"
+    implementation "com.squareup.moshi:moshi:$moshiVersion"
+    implementation "com.squareup.moshi:moshi-kotlin:$moshiVersion"
+    kapt "com.squareup.moshi:moshi-kotlin-codegen:$moshiVersion"
+    
+    implementation "com.google.dagger:hilt-android:$daggerVersion"
+    kapt "com.google.dagger:hilt-compiler:$daggerVersion"
+    
+    implementation 'com.github.bumptech.glide:glide:4.16.0'
+    kapt 'com.github.bumptech.glide:compiler:4.16.0'
+    
+    implementation 'com.airbnb.android:lottie:6.1.0'
+    
+    implementation 'com.jakewharton.timber:timber:5.0.1'
+    implementation 'com.github.kirich1409:viewbindingpropertydelegate-full:1.5.9'
+    testImplementation "junit:junit:$junitVersion"
+    testImplementation "org.mockito:mockito-core:$mockitoVersion"
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutinesVersion"
+    
+    androidTestImplementation "androidx.test.ext:junit:1.1.5"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$espressoVersion"
+    androidTestImplementation "androidx.test.espresso:espresso-intents:$espressoVersion"
+    androidTestImplementation "androidx.test.espresso:espresso-contrib:$espressoVersion"
+    androidTestImplementation "androidx.test:runner:1.5.2"
+    androidTestImplementation "androidx.test:rules:1.5.0"
+    androidTestImplementation "org.mockito:mockito-android:$mockitoVersion"
+    
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.12'
+    debugImplementation 'com.facebook.stetho:stetho:1.6.0'
+    debugImplementation 'com.facebook.stetho:stetho-okhttp3:1.6.0'
+}
+
+tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
+    kotlinOptions {
+        jvmTarget = '17'
+    }
+}
+
+kapt {
+    correctErrorTypes true
+    useBuildCache true
+}
+android.buildFeatures.buildConfig = true
