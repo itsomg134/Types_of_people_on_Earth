@@ -2,7 +2,7 @@
 
 > **"Everyone is different. Spin the wheel and discover which type of person you are!"**
 
-[**Play and Discover**](https://types-of-people-on-earth.vercel.app/)
+[**Play and Discover**](https://typeofpeopleonearth.vercel.app/)
 
 <img width="1886" height="1291" alt="Screenshot_23-7-2026_222329_127 0 0 1" src="https://github.com/user-attachments/assets/31e368b3-76f3-4e7c-8d24-c09a57ed33b6" />
 
