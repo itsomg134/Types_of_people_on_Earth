@@ -4,7 +4,7 @@
 
 [**Play and Discover**](https://typeofpeopleonearth.vercel.app/)
 
-<img width="1886" height="1291" alt="Screenshot_23-7-2026_222329_127 0 0 1" src="https://github.com/user-attachments/assets/31e368b3-76f3-4e7c-8d24-c09a57ed33b6" />
+<img width="1884" height="1300" alt="image" src="https://github.com/user-attachments/assets/011c6129-e829-45fa-a77b-06653cb5f763" />
 
 [![GitHub release](https://img.shields.io/github/v/release/your-username/TypesOfPeopleOnEarth)](https://github.com/your-username/TypesOfPeopleOnEarth/releases)
 [![Kotlin](https://img.shields.io/badge/Kotlin-7F52FF?logo=kotlin&logoColor=white)](https://kotlinlang.org/)
